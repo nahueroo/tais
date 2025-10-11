@@ -1,0 +1,36 @@
+from pytubefix import YouTube
+from pytubefix.cli import on_progress
+from faster_whisper import WhisperModel
+from transformers import pipeline
+
+# Pytubefix
+
+url = input("Link: ")
+
+video = YouTube(url, on_progress_callback = on_progress)
+audio = video.streams.get_audio_only()
+ruta = audio.download()
+
+# Faster-Whisper
+
+model = WhisperModel(model_size_or_path="small", device="cpu")
+
+segments, info = model.transcribe(ruta, beam_size=5)
+
+print("Lenguaje detectado: '%s'. Probabilidad: '%f'" % (info.language, info.language_probability))
+
+for segment in segments:
+    with open("%s.txt" % (video.title), "a", encoding="utf-8") as f:
+        f.write(segment.text)
+
+# AI Summarize
+
+procesadordetexto = pipeline("summarization", model="t5-small")
+
+with open("%s.txt" % (video.title)) as f:
+    texto = f.read()
+
+resumen = procesadordetexto(texto)
+
+with open("%s(resumen).txt" % (video.title), "w", encoding="utf-8") as f:
+    f.write(resumen[0]['summary_text'])
