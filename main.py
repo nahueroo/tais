@@ -2,14 +2,21 @@ from pytubefix import YouTube
 from pytubefix.cli import on_progress
 from faster_whisper import WhisperModel
 from transformers import pipeline
+import os
+import re
+
+currentfolder = os.getcwd()
 
 # Pytubefix
 
 url = input("Link: ")
 
 video = YouTube(url, on_progress_callback = on_progress)
+
+path = os.path.join(currentfolder, video.title)
+
 audio = video.streams.get_audio_only()
-ruta = audio.download()
+ruta = audio.download(path)
 
 # Faster-Whisper
 
