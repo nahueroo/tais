@@ -1,8 +1,6 @@
-from pytubefix import YouTube
-from pytubefix.cli import on_progress
 from faster_whisper import WhisperModel
 from transformers import pipeline
-from utils import renombrar
+from bajarVideos import bajarVideos
 import os
 
 
@@ -12,14 +10,7 @@ currentfolder = os.getcwd()
 
 url = input("Link: ")
 
-video = YouTube(url, on_progress_callback = on_progress)
-videoRenombrado = renombrar(video.title)
-duracion = video.length
-
-path = os.path.join(currentfolder, "transcripciones", f"{videoRenombrado}")
-
-audio = video.streams.get_audio_only()
-ruta = audio.download(path)
+ruta, path, videoRenombrado, duracion = bajarVideos(url)
 
 # Faster-Whisper
 
