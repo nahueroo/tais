@@ -1,0 +1,12 @@
+# Entorno virtual
+env/
+*.env
+
+# Cache
+__pycache__/
+
+# VSCode
+.vscode/
+
+# Transcripciones
+transcripciones/
