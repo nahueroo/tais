@@ -4,26 +4,36 @@ from utils import renombrar
 import os
 
 def obtenerVideo(url):
-    return YouTube(url, on_progress_callback = on_progress)
+    video = YouTube(url, on_progress_callback = on_progress)
+    print(f"Video:{video.title}")
+    return video
 
 def renombradoVideo(video):
     return renombrar(video.title)
 
-def obtenerPath(video):
+def obtenerPathDescarga(video):
     nombre = video.title
-    return os.path.join(os.getcwd(), "Descargas", f"{renombrar(nombre)}")
+    return os.path.join(os.getcwd(), "descargas")
 
-def descargarSoloAudio(video):
-    return video.streams.get_audio_only()
+def obtenerPathTranscripcion(video):
+    nombre = video.title
+    return os.path.join(os.getcwd(), "transcripciones", f"{renombrar(nombre)}")
 
-def descargarVideo(path, video):
+def descargarSoloAudio(video, path):
+    stream = video.streams.get_audio_only()
+    ruta = stream.download(path)
+    return ruta
+
+def descargar(path, video):
 
     stream = video.streams.filter(progressive=True).order_by("resolution").desc().first()
 
     if(stream != None):
+        print("Audio y video juntos")
         path = stream.download(path)
     else:
-        soloVideo = video.streams.get_by_resolution("720p")
+        print("Audio y video separados")
+        soloVideo = video.streams.get_by_resolution("1080p")
         if(soloVideo == None):
             soloVideo = video.streams.order_by("resolution").desc().first()
 
