@@ -1,6 +1,6 @@
 from faster_whisper import WhisperModel
 from transformers import pipeline
-from bajarVideos import bajarVideos
+from videos import bajarVideos
 import os
 
 
