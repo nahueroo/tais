@@ -19,8 +19,23 @@ def obtenerPathTranscripcion(video):
     nombre = video.title
     return os.path.join(os.getcwd(), "transcripciones", f"{renombrar(nombre)}")
 
-def descargarSoloAudio(video, path):
+def obtenerPathPodcasts(video):
+    nombre = video.title
+    return os.path.join(os.getcwd(), "podcasts")
+
+def obtenerPathTranscripcion(video):
+    nombre = video.title
+    return os.path.join(os.getcwd(), "transcripciones", f"{renombrar(nombre)}")
+
+def descargarParaTranscripcion(video, path):
     stream = video.streams.get_audio_only()
+    ruta = stream.download(path)
+    return ruta
+
+def descargarParaPodcast(video, path):
+    stream = video.streams.filter(only_audio=True).order_by('abr').desc().first()
+    if(stream == None):
+        stream = video.streams.get_audio_only()
     ruta = stream.download(path)
     return ruta
 
