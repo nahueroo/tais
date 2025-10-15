@@ -1,6 +1,4 @@
 from videos import *
-from transcripcion import transcribir
-from procesadoDeVideo import procesarAudio
 import os
 
 def descargarVideos():
@@ -15,19 +13,22 @@ def descargarVideos():
 def descargarPodcast():
     url = input("Link:")
     video = obtenerVideo(url)
-    print("Video obtenido")
+    print(f"Video obtenido: {url}")
     path = obtenerPathPodcasts(video)
-    print("Path obtenido")
+    print(f"Path obtenido: {path}")
     descargarParaPodcast(video, path)
+    print(f"descargando {video} en {path}")
     print("Video descargado")
 
 
 def transcribirVideos():
+    from transcripcion import transcribir
     url = input("Link:")
     video = obtenerVideo(url)
-    print("Video obtenido")
+    print(f"Video obtenido: {video.title}")
     path = obtenerPathTranscripcion(video)
-    print("Path obtenido")
+    print(f"Path obtenido: {path}")
     audio = descargarParaTranscripcion(video, path)
     print("Video descargado")
-    transcribir(audio, path, video.length)
+    print(f"transcribiendo {audio} en {path}")
+    transcribir(audio, path, video.length, video.title)

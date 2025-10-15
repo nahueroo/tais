@@ -1,5 +1,3 @@
-from scripts import *
-
 def mostrarMenu():
     print("Menu")
     print("1. Descargar Video")
@@ -8,12 +6,15 @@ def mostrarMenu():
     print("4. Salir")
 
 def opcion1():
+    from scripts import descargarVideos
     descargarVideos()
 
 def opcion2():
+    from scripts import descargarPodcast
     descargarPodcast()
 
 def opcion3():
+    from scripts import transcribirVideos
     transcribirVideos()
 
 def main():
